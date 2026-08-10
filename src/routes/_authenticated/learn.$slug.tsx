@@ -1,6 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft } from "lucide-react";
-import { TOPICS } from "@/content/learn";
+import { TOPICS, type Topic } from "@/content/learn";
 
 export const Route = createFileRoute("/_authenticated/learn/$slug")({
   loader: ({ params }) => {
@@ -35,7 +35,7 @@ function Fallback({ message }: { message: string }) {
 }
 
 function TopicPage() {
-  const topic = Route.useLoaderData();
+  const topic = Route.useLoaderData() as Topic;
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
