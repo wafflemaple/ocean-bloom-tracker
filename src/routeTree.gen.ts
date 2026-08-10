@@ -17,6 +17,7 @@ import { Route as AuthenticatedCalendarRouteImport } from './routes/_authenticat
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
 import { Route as AuthenticatedInsightsRouteImport } from './routes/_authenticated/insights'
 import { Route as AuthenticatedLogRouteImport } from './routes/_authenticated/log'
+import { Route as AuthenticatedLearnIndexRouteImport } from './routes/_authenticated/learn.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +58,11 @@ const AuthenticatedLogRoute = AuthenticatedLogRouteImport.update({
   path: '/log',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedLearnIndexRoute = AuthenticatedLearnIndexRouteImport.update({
+  id: '/learn/',
+  path: '/learn/',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof AuthenticatedHomeRoute
   '/insights': typeof AuthenticatedInsightsRoute
   '/log': typeof AuthenticatedLogRoute
+  '/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,6 +82,7 @@ export interface FileRoutesByTo {
   '/home': typeof AuthenticatedHomeRoute
   '/insights': typeof AuthenticatedInsightsRoute
   '/log': typeof AuthenticatedLogRoute
+  '/learn': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,6 +94,7 @@ export interface FileRoutesById {
   '/_authenticated/home': typeof AuthenticatedHomeRoute
   '/_authenticated/insights': typeof AuthenticatedInsightsRoute
   '/_authenticated/log': typeof AuthenticatedLogRoute
+  '/_authenticated/learn/': typeof AuthenticatedLearnIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/insights'
     | '/log'
+    | '/learn/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/home'
     | '/insights'
     | '/log'
+    | '/learn'
   id:
     | '__root__'
     | '/'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/_authenticated/home'
     | '/_authenticated/insights'
     | '/_authenticated/log'
+    | '/_authenticated/learn/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -183,6 +195,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLogRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/learn/': {
+      id: '/_authenticated/learn/'
+      path: '/learn'
+      fullPath: '/learn/'
+      preLoaderRoute: typeof AuthenticatedLearnIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -191,6 +210,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
   AuthenticatedInsightsRoute: typeof AuthenticatedInsightsRoute
   AuthenticatedLogRoute: typeof AuthenticatedLogRoute
+  AuthenticatedLearnIndexRoute: typeof AuthenticatedLearnIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -198,6 +218,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
   AuthenticatedInsightsRoute: AuthenticatedInsightsRoute,
   AuthenticatedLogRoute: AuthenticatedLogRoute,
+  AuthenticatedLearnIndexRoute: AuthenticatedLearnIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

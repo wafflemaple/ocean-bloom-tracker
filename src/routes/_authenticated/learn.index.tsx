@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { TOPICS } from "@/content/learn";
 
-export const Route = createFileRoute("/_authenticated/learn")({
+export const Route = createFileRoute("/_authenticated/learn/")({
   head: () => ({
     meta: [
       { title: "Learn · Tidal" },
