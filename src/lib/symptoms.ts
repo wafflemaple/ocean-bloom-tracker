@@ -24,9 +24,27 @@ export const SCALE_LABELS = ["None", "Mild", "Moderate", "Strong", "Severe"];
 
 export const DOMAINS: SymptomDomain[] = [
   {
+    id: "rest",
+    title: "Rest & comfort",
+    blurb: "Sleep quality, night waking and energy — the base of the routine.",
+    icon: Moon,
+    tone: "moss",
+    noteKey: "rest_note",
+    fields: [
+      {
+        key: "sleep_quality",
+        label: "Sleep quality",
+        kind: "scale",
+        hint: "0 poor · 4 restorative",
+      },
+      { key: "night_wakings", label: "Night wakings", kind: "count", max: 10 },
+      { key: "energy_level", label: "Energy level", kind: "scale", hint: "0 empty · 4 full" },
+    ],
+  },
+  {
     id: "mental",
-    title: "Mental health",
-    blurb: "The brain often changes before the body does. This is where we look first.",
+    title: "Mind & mood",
+    blurb: "Mood swings, anxiety, irritability and brain fog.",
     icon: Brain,
     tone: "primary",
     noteKey: "mental_note",
@@ -36,19 +54,6 @@ export const DOMAINS: SymptomDomain[] = [
       { key: "anxiety", label: "Anxiety", kind: "scale" },
       { key: "irritability", label: "Irritability", kind: "scale" },
       { key: "brain_fog", label: "Brain fog", kind: "scale" },
-    ],
-  },
-  {
-    id: "cycle",
-    title: "Cycle changes",
-    blurb: "Flow length, missed periods and spotting.",
-    icon: Droplets,
-    tone: "bloom",
-    noteKey: "cycle_note",
-    fields: [
-      { key: "flow_intensity", label: "Flow intensity", kind: "scale" },
-      { key: "spotting", label: "Spotting", kind: "toggle" },
-      { key: "missed_period", label: "Missed period", kind: "toggle" },
     ],
   },
   {
@@ -67,19 +72,26 @@ export const DOMAINS: SymptomDomain[] = [
     ],
   },
   {
-    id: "rest",
-    title: "Rest & comfort",
-    blurb: "Sleep quality, night waking and energy.",
-    icon: Moon,
-    tone: "moss",
-    noteKey: "rest_note",
+    id: "cycle",
+    title: "Cycle & period",
+    blurb: "Regular period days, flow, spotting and missed cycles.",
+    icon: Droplets,
+    tone: "bloom",
+    noteKey: "cycle_note",
     fields: [
-      { key: "sleep_quality", label: "Sleep quality", kind: "scale", hint: "0 poor · 4 restorative" },
-      { key: "night_wakings", label: "Night wakings", kind: "count", max: 10 },
-      { key: "energy_level", label: "Energy level", kind: "scale", hint: "0 empty · 4 full" },
+      { key: "period_day", label: "Period today", kind: "toggle" },
+      { key: "period_start", label: "First day of this period", kind: "toggle" },
+      { key: "flow_intensity", label: "Flow intensity", kind: "scale" },
+      { key: "cramps", label: "Cramps", kind: "scale" },
+      { key: "spotting", label: "Spotting", kind: "toggle" },
+      { key: "missed_period", label: "Missed period", kind: "toggle" },
     ],
   },
 ];
+
+export function domainById(id: string): SymptomDomain {
+  return DOMAINS.find((d) => d.id === id) ?? DOMAINS[0]!;
+}
 
 export const ALL_SCALE_KEYS = DOMAINS.flatMap((d) =>
   d.fields.filter((f) => f.kind === "scale").map((f) => f.key),
@@ -102,6 +114,9 @@ export type SymptomEntry = {
   flow_intensity: number | null;
   spotting: boolean;
   missed_period: boolean;
+  period_day: boolean;
+  period_start: boolean;
+  cramps: number | null;
   cycle_note: string | null;
   hot_flashes: number | null;
   night_sweats: number | null;
@@ -126,12 +141,23 @@ export function entryLoad(entry: SymptomEntry): number {
     "fatigue",
     "joint_aches",
     "weight_change",
+    "cramps",
   ] as const;
   const values = keys
-    .map((k) => entry[k])
+    .map((k) => entry[k as keyof SymptomEntry])
     .filter((v): v is number => typeof v === "number" && v > 0);
   if (!values.length) return 0;
   return values.reduce((a, b) => a + b, 0) / values.length;
+}
+
+/** Which domains a given entry actually carries data for. */
+export function domainsTouched(entry: SymptomEntry): string[] {
+  return DOMAINS.filter((d) =>
+    d.fields.some((f) => {
+      const value = (entry as unknown as Record<string, unknown>)[f.key];
+      return f.kind === "toggle" ? value === true : typeof value === "number";
+    }),
+  ).map((d) => d.id);
 }
 
 export function todayISO(): string {
