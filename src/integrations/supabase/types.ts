@@ -45,6 +45,7 @@ export type Database = {
         Row: {
           anxiety: number | null
           brain_fog: number | null
+          cramps: number | null
           created_at: string
           cycle_note: string | null
           energy_level: number | null
@@ -62,6 +63,8 @@ export type Database = {
           mood_swings: number | null
           night_sweats: number | null
           night_wakings: number | null
+          period_day: boolean
+          period_start: boolean
           physical_note: string | null
           rest_note: string | null
           sleep_quality: number | null
@@ -73,6 +76,7 @@ export type Database = {
         Insert: {
           anxiety?: number | null
           brain_fog?: number | null
+          cramps?: number | null
           created_at?: string
           cycle_note?: string | null
           energy_level?: number | null
@@ -90,6 +94,8 @@ export type Database = {
           mood_swings?: number | null
           night_sweats?: number | null
           night_wakings?: number | null
+          period_day?: boolean
+          period_start?: boolean
           physical_note?: string | null
           rest_note?: string | null
           sleep_quality?: number | null
@@ -101,6 +107,7 @@ export type Database = {
         Update: {
           anxiety?: number | null
           brain_fog?: number | null
+          cramps?: number | null
           created_at?: string
           cycle_note?: string | null
           energy_level?: number | null
@@ -118,6 +125,8 @@ export type Database = {
           mood_swings?: number | null
           night_sweats?: number | null
           night_wakings?: number | null
+          period_day?: boolean
+          period_start?: boolean
           physical_note?: string | null
           rest_note?: string | null
           sleep_quality?: number | null
