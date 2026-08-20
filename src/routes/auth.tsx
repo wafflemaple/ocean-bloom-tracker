@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
-import coveAsset from "@/assets/ocean-cove.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
