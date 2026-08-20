@@ -138,13 +138,9 @@ function AuthPage() {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12">
-      <img
-        src={coveAsset.url}
-        alt=""
-        aria-hidden
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <div className="absolute inset-0 bg-[image:linear-gradient(180deg,oklch(0.16_0.05_245/72%)_0%,oklch(0.16_0.05_245/88%)_100%)]" />
+      <div className="breathe absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+      <div className="breathe absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-[color:var(--moss)]/20 blur-3xl" />
+
 
       <div className="glass rise glow relative w-full max-w-md rounded-4xl p-8 sm:p-10">
         <Link to="/" className="flex items-center gap-2">
