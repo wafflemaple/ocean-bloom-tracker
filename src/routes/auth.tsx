@@ -241,6 +241,17 @@ function AuthPage() {
           Continue with Google
         </button>
 
+        <button
+          onClick={guest}
+          disabled={loading}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-border py-3.5 text-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60"
+        >
+          Explore with the guest account
+        </button>
+        <p className="mt-2 text-center text-xs text-muted-foreground">
+          Any email address works — Gmail, Yahoo, Outlook, iCloud or your own domain.
+        </p>
+
         <div className="mt-7 flex flex-wrap items-center justify-between gap-3 text-sm">
           <button
             onClick={() => {
