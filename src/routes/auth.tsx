@@ -5,7 +5,6 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
-import coveAsset from "@/assets/ocean-cove.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -98,6 +97,31 @@ function AuthPage() {
     navigate({ to: "/home", replace: true });
   }
 
+  async function guest() {
+    setLoading(true);
+    try {
+      const creds = { email: "guest@tidal.app", password: "TidalGuest2026!" };
+      const { error } = await supabase.auth.signInWithPassword(creds);
+      if (error) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          ...creds,
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: { display_name: "Guest" },
+          },
+        });
+        if (signUpError) throw signUpError;
+        const { error: retry } = await supabase.auth.signInWithPassword(creds);
+        if (retry) throw retry;
+      }
+      toast.success("Signed in as the guest tester.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Guest sign-in failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function forgotPassword() {
     const parsed = z.string().trim().email().safeParse(email);
     if (!parsed.success) {
@@ -113,13 +137,9 @@ function AuthPage() {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-12">
-      <img
-        src={coveAsset.url}
-        alt=""
-        aria-hidden
-        className="absolute inset-0 h-full w-full object-cover"
-      />
-      <div className="absolute inset-0 bg-[image:linear-gradient(180deg,oklch(0.16_0.05_245/72%)_0%,oklch(0.16_0.05_245/88%)_100%)]" />
+      <div className="breathe absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
+      <div className="breathe absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-[color:var(--moss)]/20 blur-3xl" />
+
 
       <div className="glass rise glow relative w-full max-w-md rounded-4xl p-8 sm:p-10">
         <Link to="/" className="flex items-center gap-2">
@@ -215,6 +235,17 @@ function AuthPage() {
           </svg>
           Continue with Google
         </button>
+
+        <button
+          onClick={guest}
+          disabled={loading}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-2xl border border-dashed border-border py-3.5 text-sm text-muted-foreground transition-colors hover:text-foreground disabled:opacity-60"
+        >
+          Explore with the guest account
+        </button>
+        <p className="mt-2 text-center text-xs text-muted-foreground">
+          Any email address works — Gmail, Yahoo, Outlook, iCloud or your own domain.
+        </p>
 
         <div className="mt-7 flex flex-wrap items-center justify-between gap-3 text-sm">
           <button
