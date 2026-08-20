@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import pathAsset from "@/assets/ocean-path.png.asset.json";
 
 export const Route = createFileRoute("/reset-password")({
   ssr: false,
@@ -53,7 +52,6 @@ function ResetPassword() {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
-      <img src={pathAsset.url} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover" />
       <div className="absolute inset-0 bg-[image:linear-gradient(180deg,oklch(0.16_0.05_245/78%)_0%,oklch(0.16_0.05_245/92%)_100%)]" />
       <div className="glass rise relative w-full max-w-md rounded-4xl p-8 sm:p-10">
         <h1 className="font-display text-4xl">Set a new password</h1>
