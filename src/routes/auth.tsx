@@ -98,6 +98,31 @@ function AuthPage() {
     navigate({ to: "/home", replace: true });
   }
 
+  async function guest() {
+    setLoading(true);
+    try {
+      const creds = { email: "guest@tidal.app", password: "TidalGuest2026!" };
+      const { error } = await supabase.auth.signInWithPassword(creds);
+      if (error) {
+        const { error: signUpError } = await supabase.auth.signUp({
+          ...creds,
+          options: {
+            emailRedirectTo: window.location.origin,
+            data: { display_name: "Guest" },
+          },
+        });
+        if (signUpError) throw signUpError;
+        const { error: retry } = await supabase.auth.signInWithPassword(creds);
+        if (retry) throw retry;
+      }
+      toast.success("Signed in as the guest tester.");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Guest sign-in failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function forgotPassword() {
     const parsed = z.string().trim().email().safeParse(email);
     if (!parsed.success) {
