@@ -52,7 +52,7 @@ function ResetPassword() {
 
   return (
     <main className="relative flex min-h-screen items-center justify-center overflow-hidden px-4">
-      <div className="absolute inset-0 bg-[image:linear-gradient(180deg,oklch(0.16_0.05_245/78%)_0%,oklch(0.16_0.05_245/92%)_100%)]" />
+      <div className="breathe absolute -left-24 top-10 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
       <div className="glass rise relative w-full max-w-md rounded-4xl p-8 sm:p-10">
         <h1 className="font-display text-4xl">Set a new password</h1>
         <p className="mt-2 text-sm text-muted-foreground">
