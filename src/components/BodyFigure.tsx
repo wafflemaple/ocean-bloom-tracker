@@ -65,7 +65,7 @@ export function BodyFigure({ compact = false }: { compact?: boolean }) {
         </div>
 
         <div
-          className="relative mx-auto mt-2 h-[360px] w-full max-w-[240px] touch-none select-none"
+          className="relative mx-auto mt-2 aspect-square w-full max-w-[300px] touch-none select-none"
           style={{ perspective: "900px" }}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
